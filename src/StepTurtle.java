@@ -1,11 +1,10 @@
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class StepTurtle {
 
-    public static int logicCouth(int[][] mass){
-        int[][] sumMass=mass;
+    public static HashMap logicCouth(int[][] mass){
+        //int[][] sumMass;
+
 
         for(int i=mass.length-2; i>=0;i--){
           mass[i][0]=mass[i][0]+mass[i+1][0];
@@ -14,27 +13,55 @@ public class StepTurtle {
         for(int i=1;i<=mass[mass.length-1].length-1;i++){
             mass[mass.length-1][i]=mass[mass.length-1][i-1]+mass[mass.length-1][i];
         }
-        for (int j=mass.length-2;j>=0;j--){
 
-            for(int i=1;i<= mass[0].length-1;i++){
-               
+      /* стоблец  */ for (int j=mass.length-2;j>=0;j--){
+      /*  строка  */  for(int i=1;i<= mass[0].length-1;i++){
+
 
                 if(mass[j+1][i]<=mass[j][i-1]){
             mass[j][i]=mass[j][i-1]+mass[j][i];
-                }
 
-                else {  mass[j][i]=mass[j+1][i]+mass[j][i]; }
+            //r
+
+                }
+                             //u
+                else {    mass[j][i]=mass[j+1][i]+mass[j][i];
+
+                }
 
        }
 
+
         }
-return mass[0][mass[0].length-1];
+        HashMap d=new HashMap<String,Object>();
+      d.put("MaxSum", mass[0][mass[0].length-1]);
+      d.put("StepWay",stepWay(mass));
+return d;
+    }
+
+    private static Object stepWay(int[][] mass) {
+        StringBuilder stringBuilder=new StringBuilder();
+          for(int j=0;j<= mass.length-1;j++){
+              for (int i=mass[mass.length-1].length-1;i>0;i--){
+
+                  if(mass[j][i-1]<=mass[j+1][i]){
+                      stringBuilder.append("U");  break;
+
+                  }
+                  else if(mass[j][i-1]>mass[j+1][i]) { stringBuilder.append("R");  }
+
+              }
+
+          }
+
+
+        return stringBuilder;
     }
 
 
     public static void main(String[] args) {
 
-         int[][] startMassWithVaule;
+       /*  int[][] startMassWithVaule;
         Scanner scanner=new Scanner(System.in);
         String stringOfNxM=scanner.nextLine();
         //
@@ -70,9 +97,11 @@ return mass[0][mass[0].length-1];
              massFineshed[c0][c1]=c2;// хочешь обработай ошибку
 
             }
-        }
+        }*/
+        int[][] mass={{6,0,8},{5,4,0},{3,5,1},{7,6,7},{2,3,8}};
+          HashMap d=logicCouth(mass);
 
-        System.out.println(logicCouth(massFineshed));
+        System.out.println((int)d.get("MaxSum")+" Путь: "+d.get("StepWay").toString());
 
         // int[][] mass={{1,2,6,3},{7,2,4,8},{5,0,9,6,},{4,7,1,2},{10,3,0,2}};//Можно запихнуть в двемерный массив массивы
         // разной длинны пример выше
