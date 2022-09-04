@@ -12,19 +12,19 @@ public class StepTurtle {
 
         for(int i=1;i<=mass[mass.length-1].length-1;i++){
             mass[mass.length-1][i]=mass[mass.length-1][i-1]+mass[mass.length-1][i];
-        }
+        } // заполняем пограничные значения (нижнию строку и крайний левый столбец )
 
       /* стоблец  */ for (int j=mass.length-2;j>=0;j--){
-      /*  строка  */  for(int i=1;i<= mass[0].length-1;i++){
+      /*  строка  */  for(int i=1;i<= mass[j].length-1;i++){ //0 is changed on j ; arr might be non-square
 
 
                 if(mass[j+1][i]<=mass[j][i-1]){
             mass[j][i]=mass[j][i-1]+mass[j][i];
 
-            //r
+
 
                 }
-                             //u
+
                 else {    mass[j][i]=mass[j+1][i]+mass[j][i];
 
                 }
@@ -41,16 +41,20 @@ return d;
 
     private static Object stepWay(int[][] mass) {
         StringBuilder stringBuilder=new StringBuilder();
-          for(int j=0;j<= mass.length-1;j++){
-              for (int i=mass[mass.length-1].length-1;i>0;i--){
-
-                  if(mass[j][i-1]<=mass[j+1][i]){
-                      stringBuilder.append("U");  break;
-
-                  }
-                  else if(mass[j][i-1]>mass[j+1][i]) { stringBuilder.append("R");  }
+        int i=mass[0].length-1;
+          for(int j= 0;j<=mass.length-1;j++){
+              if(i==0){
+                  stringBuilder.append("U"); j++;
+              }
+              else if(j==mass.length-1& i!=0){
+                  for(int h=i;h>0;h--)
+                  stringBuilder.append("R");
+              }
+              else if(mass[j+1][i]>=mass[j][i-1]){
+                  stringBuilder.append("U");
 
               }
+              else { stringBuilder.append("R"); i--; j--;}
 
           }
 
@@ -61,7 +65,7 @@ return d;
 
     public static void main(String[] args) {
 
-       /*  int[][] startMassWithVaule;
+         int[][] startMassWithVaule;
         Scanner scanner=new Scanner(System.in);
         String stringOfNxM=scanner.nextLine();
         //
@@ -97,11 +101,12 @@ return d;
              massFineshed[c0][c1]=c2;// хочешь обработай ошибку
 
             }
-        }*/
-        int[][] mass={{6,0,8},{5,4,0},{3,5,1},{7,6,7},{2,3,8}};
-          HashMap d=logicCouth(mass);
+        }
+        //int[][] mass={{6,0,8},{5,4,0},{3,5,1},{7,6,7},{2,3,8}};
+          HashMap d=logicCouth(massFineshed);
+        StringBuilder stringBuilder=(StringBuilder) d.get("StepWay");
 
-        System.out.println((int)d.get("MaxSum")+" Путь: "+d.get("StepWay").toString());
+        System.out.println((int)d.get("MaxSum")+" Путь: "+stringBuilder.reverse().toString());
 
         // int[][] mass={{1,2,6,3},{7,2,4,8},{5,0,9,6,},{4,7,1,2},{10,3,0,2}};//Можно запихнуть в двемерный массив массивы
         // разной длинны пример выше
